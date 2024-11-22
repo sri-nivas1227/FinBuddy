@@ -36,7 +36,10 @@ function AddIncomeExpenseModal({ type, showModal, setShowModal }) {
           >
             <div className="bg-white p-4 rounded-lg w-96">
               <div className="flex justify-end mb-2">
-                <div className="cursor-pointer" onClick={() => setShowModal(false)}>
+                <div
+                  className="cursor-pointer"
+                  onClick={() => setShowModal(false)}
+                >
                   {" "}
                   <img src={CloseIcon} alt="" className="w-8" />{" "}
                 </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 const Login = () => {
   if (localStorage.getItem("token")) {
     window.location.href = "/";
@@ -7,8 +7,23 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/auth/login`, {
+        email,
+        password,
+      })
+      .then((response) => {
+        localStorage.setItem(
+          "token",
+          response.headers.authorization.split(" ")[1]
+        );
+        window.location.href = "/";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     // Handle login logic here
     console.log("Email:", email);
     console.log("Password:", password);

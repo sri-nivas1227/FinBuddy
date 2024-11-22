@@ -1,43 +1,63 @@
 import { useState, useEffect } from "react";
 import TrackTable from "./TrackTable";
 import AddIncomeExpenseModal from "./AddIncomeExpenseModal";
+import axios from "axios";
 
 function MoneyTracker() {
-  const [expenses, setExpenses] = useState([
-    { date: "2021-10-10", category: "Food", description: "Lunch", amount: 10 },
-    {
-      date: "2021-10-10",
-      category: "Transport",
-      description: "Bus",
-      amount: 5,
-    },
-  ]);
-  const [showModal, setShowModal] = useState(true);
-  const [incomes, setIncomes] = useState([
-    {
-      date: "2021-10-10",
-      category: "Salary",
-      description: "September Salary",
-      amount: 1000,
-    },
-    {
-      date: "2021-10-10",
-      category: "Bonus",
-      description: "Diwali Bonus",
-      amount: 200,
-    },
-  ]);
+  const [expenses, setExpenses] = useState([]);
+  const [type, setType] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [incomes, setIncomes] = useState([]);
+  const fetchTransactions = async () => {
+    await axios
+      .get(`${import.meta.env.VITE_API_URL}/ledger`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setExpenses(response.data.data.expenseData);
+        setIncomes(response.data.data.incomeData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+  if (!expenses && !incomes) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
+          <h2 className="text-2xl font-bold text-center">No Transactions</h2>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       <div className="p-10 min-h-screen bg-slate-100">
         <div className="grid grid-cols-2 gap-6 py-4">
           <div className="flex justify-end">
-            <div className="p-2 w-fit   rounded-lg bg-red-400 text-xl font-bold">
+            <div
+              onClick={() => {
+                setType("expense");
+                setShowModal((prev) => !prev);
+              }}
+              className="p-2 w-fit  cursor-pointer  rounded-lg bg-red-400 text-xl font-bold"
+            >
               Add Expense
             </div>
           </div>
           <div className="flex justify-start">
-            <div className="p-2 w-fit rounded-lg bg-green-400 text-xl font-bold">
+            <div
+              onClick={() => {
+                setType("income");
+                setShowModal((prev) => !prev);
+              }}
+              className="p-2 cursor-pointer w-fit rounded-lg bg-green-400 text-xl font-bold"
+            >
               Add Income
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 const Signup = () => {
   if (localStorage.getItem("token")) {
     window.location.href = "/";
@@ -20,13 +20,28 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match");
       return;
     }
+    axios
+      .post("http://localhost:5000/api/auth/register", formData)
+      .then((res) => {
+        if (res.data.success) {
+          console.log(res);
+          alert(res.data.message);
+          window.location.href = "/login";
+        } else {
+          alert(res.data.data.message);
+        }
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
+
     console.log(formData);
   };
 
