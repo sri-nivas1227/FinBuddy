@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import MoneyTracker from "./components/MoneyTracker";
+import Profile from "./components/Profile";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<MoneyTracker />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </>
