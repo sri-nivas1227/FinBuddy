@@ -25,7 +25,7 @@ function MoneyTracker() {
   };
   useEffect(() => {
     fetchTransactions();
-  }, []);
+  }, [showModal]);
   if (!expenses && !incomes) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -38,6 +38,7 @@ function MoneyTracker() {
   return (
     <>
       <div className="p-10 min-h-screen bg-slate-100">
+        {/* Action Buttons for transactions */}
         <div className="grid grid-cols-2 gap-6 py-4">
           <div className="flex justify-end">
             <div
@@ -62,13 +63,14 @@ function MoneyTracker() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-6">
+        {/* Ledger */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <TrackTable data={expenses} type={"expense"} />
           <TrackTable data={incomes} type={"income"} />
         </div>
       </div>
       <AddIncomeExpenseModal
-        type={"expense"}
+        type={type}
         showModal={showModal}
         setShowModal={setShowModal}
       />
