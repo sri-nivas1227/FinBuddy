@@ -22,4 +22,19 @@ router.get("/", async (req, res) => {
   res.send({ expenseData, incomeData });
 });
 
+router.post("/addTransaction", async (req, res) => {
+  const userId = req.user._id;
+  const { amount, category, date, description, type } = req.body;
+  const newTransaction = new Ledger({
+    amount,
+    category,
+    date,
+    description,
+    type,
+    userId,
+  });
+  await newTransaction.save();
+  res.send({ message: "Transaction added successfully" });
+});
+
 export default router;
