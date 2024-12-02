@@ -38,7 +38,12 @@ router.post("/login", async (req, res) => {
     }
     // Login Successful, create token
     const token = jwt.sign(
-      { _id: user._id, username: user.username, email: user.email },
+      {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        fullName: `${user.firstName} ${user.lastName}`,
+      },
       process.env.JWT_SECRET
     );
     res.set("Authorization", `Bearer ${token}`);
@@ -47,7 +52,6 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-
   const { username, firstName, lastName, email, password } = req.body;
   const existingUser = await User.findOne({ username });
   if (existingUser) {
