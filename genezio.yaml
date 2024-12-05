@@ -22,7 +22,7 @@ frontend:
         build:
             - npm run build
         deploy:
-            - npm install
+            - yarn install
     subdomain: yellow-disgusted-bobcat
 name: yellow-disgusted-bobcat
 region: us-east-1
