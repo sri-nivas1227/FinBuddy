@@ -3,14 +3,17 @@ import MiniLogo from "/src/assets/logo/mini-logo.png";
 import ProfileDark from "/src/assets/icons/profile-dark.png";
 import LoginIcon from "/src/assets/icons/login.png";
 import ProfileMenu from "./ProfileMenu";
+import calculatorIcon from "/src/assets/icons/calculator.png";
+import Calculator from "./Calculator";
 const NavBar = () => {
   const [showProfile, setShowProfile] = useState(false);
-  
+  const [openCalculator, setOpenCalculator] = useState(false);
+
   return (
-    <nav className="bg-gray-300 p-4 flex justify-between items-center">
+    <nav className=" p-4 bg-green-50 grid grid-cols-4 items-center border-b">
       <div
         onClick={() => (window.location.href = "/")}
-        className="flex items-center cursor-pointer"
+        className="col-span-3 flex items-center cursor-pointer"
       >
         <img
           src={MiniLogo}
@@ -18,7 +21,18 @@ const NavBar = () => {
           className="pointer-events-none w-28 mr-2"
         />
       </div>
-      <div>
+      <div className="flex w-full justify-between">
+        <div className="relative cursor-pointer">
+          <img
+            onClick={() => {
+              setOpenCalculator(!openCalculator);
+            }}
+            src={calculatorIcon}
+            alt="calculator"
+            className="w-8"
+          />
+          {openCalculator ? <Calculator /> : null}
+        </div>
         {localStorage.getItem("token") ? (
           <div className="">
             <img
